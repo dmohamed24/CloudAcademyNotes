@@ -1,5 +1,1 @@
-# CloudAcademyNotes
-
-### Cloud Fundamentals
-
-TESTER COMMMIT FROM OBSIDIAN NUMER 2 
+# Cloud Computing Notes Repository
