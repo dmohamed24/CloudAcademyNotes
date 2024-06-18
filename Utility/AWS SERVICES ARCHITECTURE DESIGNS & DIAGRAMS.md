@@ -1,0 +1,6 @@
+- https://creately.com/guides/aws-architecture-diagrams-and-use-cases/
+- https://safeti.medium.com/basics-of-aws-cloud-architecture-cf949129b824
+- https://www.youtube.com/watch?v=tSqEljKKiU0
+- https://www.lucidchart.com/pages/architecture-diagram
+- https://www.youtube.com/watch?v=FDEpdNdFglI
+- 
