@@ -3,4 +3,8 @@
 - https://www.youtube.com/watch?v=tSqEljKKiU0
 - https://www.lucidchart.com/pages/architecture-diagram
 - https://www.youtube.com/watch?v=FDEpdNdFglI
-- 
+- https://www.youtube.com/watch?v=Z3SYDTMP3ME&ab_channel=AWSwithChetan
+- https://www.youtube.com/watch?v=FDEpdNdFglI&ab_channel=BeABetterDev
+- https://www.youtube.com/watch?v=5oonyR-CyME&ab_channel=ValarioWhite
+- https://www.simplilearn.com/tutorials/aws-tutorial/what-is-aws
+- https://www.youtube.com/watch?v=43tIX7901Gs&ab_channel=RahulWagh

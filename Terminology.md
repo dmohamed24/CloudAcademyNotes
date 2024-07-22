@@ -1,6 +1,8 @@
-1. Routing 
-2. Switching
-3. data packets 
-4. Protocols 
-5. IP Addresses 
-6. Network 
+- **High Availability:** Implementing multiple web servers, load balancers, and databases across different data centers.
+- **Redundancy:** Using backup servers and databases to take over in case of failure.
+- **Scalability:** Automatically adding servers during high traffic periods (horizontal scaling).
+- **Reliability:** Regularly testing the system and using monitoring tools to catch and fix issues quickly.
+- **Cost-Effectiveness:** Utilizing cloud resources to pay only for what is used, avoiding excess hardware costs.
+- **Performance:** Ensuring fast response times through optimized code and CDN usage.
+- **Flexibility:** Designing the system to easily integrate new payment methods or third-party services.
+- **Efficiency:** Optimizing database queries and server usage to handle high loads with minimal resources.

@@ -15,16 +15,14 @@
 5.  Performance 
 	- Load balancers prevents any servers from becoming a bottleneck which improves the responsiveness and availability of the app 
 
+
 ### Types of Load Balancers
 
 1. **Hardware Load Balancers:**
-    
     - Physical devices designed to balance traffic. Used in traditional on-premises data centers but less common in cloud environments.
 2. **Software Load Balancers:**
-    
     - Software-based solutions that run on virtual machines or servers. Examples include HAProxy and NGINX.
 3. **Cloud-based Load Balancers:**
-    
     - Managed load balancing services offered by cloud providers, such as AWS Elastic Load Balancing (ELB), Azure Load Balancer, and Google Cloud Load Balancing.
 
 ### Cloud Load Balancer Types
