@@ -4,6 +4,4 @@ testing 123
 
 
 
-Adaptable Software Engineer with 2+ years of experience building scalable commercial software across the entire stack, but in particular leading the development of complex user interfaces using a plethora of technologies (JavaScript / TypeScript, Next.js, Node.js, PostgreSQL, and more).  
-  
-Technology is the biggest leverage & has the potential to be the greatest leveller by giving opportunities to those who would otherwise never get them - I'm purpose driven & eager to have an impact.
+https://www.youtube.com/watch?v=x7YjX2_zGsk&list=PLwyXYwu8kL0wg9R_VMeXy0JiK5_c70IrV&index=3&ab_channel=TinyTechnicalTutorials
