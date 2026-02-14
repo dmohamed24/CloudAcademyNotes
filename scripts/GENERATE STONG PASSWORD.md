@@ -142,6 +142,55 @@ DCOKER COMPOSE UP
 
 ---
 
+## 2. Explain the Infrastructure and How All the Parts Are Connected
+
+[](https://github.com/dmohamed24/actions-hero/blob/main/learning/SCRIPT.md#2-explain-the-infrastructure-and-how-all-the-parts-are-connected)
+
+(Use visuals or diagrams if possible during this section)
+
+### 🔹 From the User’s Perspective:
+
+[](https://github.com/dmohamed24/actions-hero/blob/main/learning/SCRIPT.md#-from-the-users-perspective)
+
+“So let’s think about it from the user’s point of view.
+
+They open their browser and type in the public IP address of the server — the EC2 instance.
+
+That request hits port 3000 on the server, which is allowed by the EC2’s security group.
+
+Behind the scenes, that server is running a Docker container that hosts the Node.js application. Docker maps port 3000 on the container to port 3000 on the EC2 instance.
+
+The app receives the request, generates a random number, and sends back a webpage displaying it.
+
+All of this happens in milliseconds.”
+
+### 🔹 From the Developer’s Perspective:
+
+[](https://github.com/dmohamed24/actions-hero/blob/main/learning/SCRIPT.md#-from-the-developers-perspective)
+
+“Now, as a developer, here’s what the full pipeline looks like:
+
+When I push my code to GitHub:
+
+A CI workflow runs automatically. It checks my code style, runs tests, and builds a Docker image tagged with that commit.
+
+That image gets pushed to Docker Hub.
+
+Then, either on push to the main branch or manually through the GitHub UI, a CD workflow kicks in:
+
+It SSHes into the EC2 instance.
+
+It pulls the latest Docker image.
+
+It stops and removes the previous container if it exists.
+
+Then it runs the new container, exposing port 3000 for users to access.
+
+So from writing code to serving it in production — everything is automated. This gives us a clean, repeatable deployment process.”
+
+
+
+---
 ### 🐳 1. Dockerfile — Fixing the Copy Instructions and Entry Point
 
 > Initially, in my Dockerfile, I had this line:
@@ -168,27 +217,6 @@ DCOKER COMPOSE UP
 > 
 > That ensured the container runs the actual app entry point correctly.
 
-
-### 🧠 2. `index.js` — Fixing Static Path Resolution and Binding
-
-> In the app itself, I ran into a common but frustrating issue around serving static files.
-> 
-> Initially, the route for `/` was doing this:
-> 
-> `res.sendFile(path.join(__dirname, '../../public/index.html'));`
-> 
-> But inside the container, this relative path didn’t resolve correctly — and I kept seeing repeated `ENOENT` errors saying the file didn’t exist.
-> 
-> The fix was to change it to:
-> 
-> `res.sendFile(path.join(__dirname, 'public/index.html'));`
-> 
-> Since the `public` folder is now being copied to `/usr/src/public`, and the working directory is `/usr/src`, this relative path works perfectly.
-> 
-> That change completely resolved the "not found" errors I was seeing in the browser.
-
-
-
 ### 🌐 Binding to All Interfaces
 
 > The final subtle issue was with how the Express server was listening for connections.
@@ -207,3 +235,52 @@ DCOKER COMPOSE UP
 
 es, a server binding to `0.0.0.0` means it will listen for and accept connections on all available network interfaces of the host machine. Effectively, it's binding to all IPv4 addresses assigned to the machine. This is a common practice for servers that need to be accessible from any network interface on the system
 
+
+---
+
+AWS will:
+
+1. **Pick one instance at a time** (or enough to maintain your `MinHealthyPercentage` of capacity).
+    
+2. **Drain traffic from it** at the ALB level before terminating.
+    
+3. **Launch a new instance** using the latest Launch Template (which pulls your latest Docker image).
+    
+4. **Wait until it passes ALB health checks** before moving to the next instance.
+    
+
+That means:
+
+- Your site stays online.
+    
+- No downtime, as long as you have at least **2 instances** in your ASG and `MinHealthyPercentage` is less than `100`.
+    
+- You get a clean “immutable” deployment every time.
+
+
+### How It Works Step-by-Step
+
+1. **Trigger Instance Refresh**
+   - - `MinHealthyPercentage=50` → At least half your instances remain running during the refresh.
+        
+    - So if you have 2 instances, AWS will:
+        
+        - Drain 1 instance (ALB stops sending traffic)
+            
+        - Launch 1 new instance (with updated launch template)
+            
+        - Wait until it passes ALB health checks
+            
+        - Terminate the old instance and move on to the next.
+            
+- **ALB Health Check**
+    
+    - If your **target group** health check path (`/`) returns HTTP 200 when the app is ready, AWS waits until that’s healthy before moving traffic.
+        
+    - This guarantees **zero downtime** if you have ≥ 2 instances in your ASG.
+        
+- **Blue/Green-ish Rolling Update**
+    
+    - Effectively, you get a rolling update like Kubernetes — just slower and at the EC2 level.
+        
+    - No traffic hits the new instance until Docker has pulled your latest image, started the app, and passed health checks.

@@ -1,0 +1,79 @@
+ - vite.config.js -> allows you to customise the builkd process by adding plugins, configuring server setting and more. Basically a customizer
+ - HMR vs hot relod: 
+ - Transpiler: Like Babel is a tool that converts (souce code) one high level language to another ie from JSX to JS
+ - Compiler: converts a high level prgrogramming language to a lower level language ie JS to browser compatible code
+ - React compliler: its primary job is automatic optimization of your React components at build time & convert modern JS to browser-compatible code
+ - package.js contains the meta data of the project, name, script, dependencies etc
+ - package-lock.json: This json file is automatically generated when you run npm install, it locks down the versions of the dependecies installed in the project. Consistent vcersion across any machine
+ - index.html: the main HTML file within whihc the app is laded, it has a basic structure inclkuding eh root div whihc react will infuse in the entire app, vite sees this as the entry point. Theres also a script that points to a main.jsx file whioch initializes the application.
+	 - inde.html is what you see in the browser and tis files loads the css & js 
+ - eslint.config: config file to define the rules of the and setting for eslint whihc is a linting tool ie helps identify coding erros etc
+ - git.ignore: tells whihc files and folder to ignore when comitting like nodemodules ehcih contain all installed dependecies in your project like react vite, its used to amkew the app work locally and is managed by npm.
+ - Public folder: contains static assests like images, icons etc that dont need to go through Vite bundler. These files can be referenced directly through their paths /vite.svg
+ - src folder: This is were the Js logic and react component exists 
+	 - App.jsx: This is where the main ui of the app is defined - what you see in the site
+	 - main.jsc: The entry point of the react app - were react is rendered into the DOM. Create the root component by finding the element with id root (in the index.html) then renders the app component
+		 - Strick mode: tests that the app is working as expected in dev mode, switched off in prod. Ie rnder components twice.
+
+
+## Reach concepts
+
+- React rules
+	- Only return a single parent component from a react function, loophole is using a fragment whihc the dom doesnt recognize
+	- Cant use class and for, a reserved terms in the library instead use classname and htmlfor
+	- Close all the tags -> `<img src="img">` -> correct way `<img src="img"/>` 
+	- Js expressions can be used using jsx curly brackets
+	- Inline styles overrides any css files imported. Using inline stles you need to use camelcase properties
+- Virtual DOM
+	- The issue with using JS and HTML is DOM manipulation beacuse its single threaded meaning it can only caeet out a single operation at a time and it clog everything up makig it slow. Reach solves this issue with virtual dom
+	- The way the virual dom solves this is when somthing changes in the UI it compares the new virtual dom woith the previosu virtual dom (creates lightweight copy) and compares and calculates what exactly changed (diffing) and only updates that specific part of the DOM and applies it on the real dom.
+	- Reason why keys are impoortant when looping over compoent, to find the specific element in the list to update
+- Props
+	- Props are way of drilling variables from parent compoent to children to render certain information
+	- the Children prop is a method of creating a component that is a wrapper that has the same styling & elements but returns different set of childrens/components but that cointainer will wa;ys be the same.
+- eventhandler
+	- Eventhandler allow to do interactive fucntionalities, onclick, onblur , onchange etc. And it allows you tyo handle forms aswell onsubmit
+	- inline handler and reference func in handler
+	- Event parameters - to get access to the information of a specific eventhandler, the handlerfucntion has a parametr called event that js provides out the box that will give you the target of the event, preventdeafualkt, stoppropagation, type etc
+- Conditional Rendering: 
+	- Show/Hide specific HTML elemts based on certain conditions
+	- Technically the the elements exist on the DOM or they dont based on the condition
+- List and Looping:
+	- Mapping/Looping over an array to produce a list of the same coponents based on the data ie certain cards.
+	- A unique key must be attached to each item so they can be identifiable.
+- Forms and input Handling:
+	- When you have the value prop of an input assigned to state variable that measn react is controlling the inpuit value 
+	- When handling onsubmit of form make sure to use e.preventDefault since it stops the page from reloading, what we want to to just take the details submited then call an api to execute the sed action and then manually move the user over to the next step if its correct
+- State Managment:
+	- Reach compoenent brain/memory, holds information about the component that can change over time. Reach relies on state/props to know when & how to re-render the component 
+	- UseState 
+		- is a hook for managing state
+		-  useState =>  const [variableName , setVariableName] = useState(SetVariableNameInitialValue)
+		-  State is not persisted across browser reload. Compoenets are re-rendered and state returens to intial value 
+		- Also, react doesnt execute synchronosly (execurting lines of code after eaac other since Reach updates state variables in batches) so when updating a state in a setter fucntion you need to use the fucntional update which takesin to account the previous value.
+		- State variables are not mutable so you cant update them directly without the setter fucntion. Alos whn you update the variable in the setter func, you need to provide a whole new variable ie object and not juist edit the exiting state variable.
+		- When state changes react re-nrederss the component to reflect the new data oin the screen
+	- UseEffecf:
+		- Its used for handling side effects which is anything that does not directly update the state is considered a side effect ie fecthing data from an api
+		- Examples - data fetching, subscriptions, Dom manipulation, timer and logging
+		- Useffect funcs has 2 paramters, the function in whihc the logic exists wiht a clean up function when the compoent unmounts and a dependency.
+		- 3 types of useEffect func, one that runs on every react render, one that runs on mount only and the last that runs only when certain dependencies changes state.
+	- useContext:
+		- In react when you have a really nest component and you want to access information set at a higher level prop drilling isnt the cleanest approach thats where the context api comes in.
+		- With context api it doesnt maktter where in the component trr you want that vaue you can get that value staright fom the contexct.
+		- It basically works as a wrapper for you whole app or just the compoent trees you need thatspecific infortmation in.
+		- best practices:
+			- split context by concerns, wrap the context around the specific DOM tree you want to access that infomaoitn beacuse anytime a specific state changes in the context it will re re render all the compoennts using it. So if you wrap the whole app at global level it could be expensive with unneccesary re-rensders
+			- Dont use it for frequenctly changing states that should be handled locaaly for that compoennt
+			- create custum hooks for the contexts
+- React Router navigation:
+	- SPA need react router to navigate through different pages without reloading the whole page
+	- Url based navigation
+	- browser back and forward support since we ae not just conditionally rendering component son a single page
+	- Shaarable urls
+- Different hooks:
+	- UseState for managing state
+	- useEffect for handling side effects like data faetching
+	- UseContext for sharing data across component 
+	- UseCallback for optimising callback functions
+	- UseMemo
